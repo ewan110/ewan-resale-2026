@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<link rel="manifest" href="manifest.json">
+<title>EWAN RESALE 2026</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#050505;color:#f5f5f5}
+*{box-sizing:border-box}body{margin:0;background:#050505}.app{max-width:520px;margin:auto;min-height:100vh;padding:18px 15px 95px}
+h1{font-size:25px;margin:3px 0}.sub,.muted{color:#8f9699;font-size:13px}.card{background:#111;border:1px solid #202525;border-radius:20px;padding:17px;margin:10px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{background:#111;border:1px solid #202525;border-radius:18px;padding:15px;cursor:pointer}.tile b{display:block;font-size:21px;margin-top:5px}.big{font-size:36px;font-weight:800}.green{color:#43e66b}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.progress{height:8px;background:#252525;border-radius:99px;overflow:hidden;margin:12px 0}.bar{height:100%;background:#43e66b;width:0}.item{padding:13px 0;border-bottom:1px solid #222}.item:last-child{border-bottom:0}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:800;cursor:pointer;background:#43e66b;color:#041006}.btn.dark{background:#222;color:#fff}.btn.red{background:#5b2020;color:#fff}.actions{display:flex;gap:8px;flex-wrap:wrap}.input{width:100%;background:#0a0a0a;color:#fff;border:1px solid #333;border-radius:12px;padding:12px;margin:5px 0 10px}.hidden{display:none}nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);background:#0d0d0df2;border-top:1px solid #222;display:flex;justify-content:space-around;padding:10px 4px;backdrop-filter:blur(15px)}nav button{background:none;border:0;color:#888;font-size:11px}nav button.active{color:#43e66b}.status{font-size:11px;color:#43e66b}.danger{color:#ff6464}
+</style>
+</head>
+<body>
+<div class="app">
+<section id="home">
+<h1>📦 EWAN RESALE 2026</h1><div class="sub">Dashboard V5 — synchronisé</div>
+<div class="card"><div class="muted">TOTAL CUMULÉ</div><div id="total" class="big green">0 €</div><div class="row"><span>Objectif 1 000 €</span><b id="pct">0 %</b></div><div class="progress"><div id="bar" class="bar"></div></div><div class="row"><span class="muted">Reste à faire</span><b id="remaining">0 €</b></div></div>
+<div class="grid">
+<div class="tile" onclick="show('stock')">📦<b id="stockCount">0</b><span class="muted">Stock</span></div>
+<div class="tile" onclick="show('sales')">💶<b id="salesTotal">0 €</b><span class="muted">Ventes</span></div>
+<div class="tile" onclick="show('purchases')">🛒<b id="investments">0 €</b><span class="muted">Investissements</span></div>
+<div class="tile" onclick="show('pokemon')">🎴<b id="pokemonTotal">0 €</b><span class="muted">Pokémon</span></div>
+</div>
+<div class="card">
+<div class="row"><span>💰 Cash disponible</span><b id="cash" class="green">22,01 €</b></div>
+<div class="row" style="margin-top:10px"><span>💳 Vinted disponible</span><b id="vintedAvailable">22,01 €</b></div>
+<div class="row" style="margin-top:10px"><span>⏳ Vinted en attente</span><b id="vintedPending">119,00 €</b></div>
+<div class="row" style="margin-top:10px"><span>🖨️ Imprimante thermique</span><b id="printer">23,00 €</b></div>
+</div>
+<div class="actions"><button class="btn" onclick="openAdd('stock')">+ Ajouter un article</button><button class="btn dark" onclick="show('settings')">⚙️ Réglages</button></div>
+</section>
+
+<section id="stock" class="hidden"><h1>📦 Stock</h1><div class="sub">Articles actifs</div><div id="stockList" class="card"></div><button class="btn" onclick="openAdd('stock')">+ Ajouter</button></section>
+<section id="sales" class="hidden"><h1>💶 Ventes</h1><div class="sub">Ventes enregistrées</div><div id="salesList" class="card"></div><button class="btn" onclick="openAdd('sale')">+ Ajouter une vente</button></section>
+<section id="purchases" class="hidden"><h1>🛒 Achats</h1><div class="sub">Investissements suivis</div><div id="purchaseList" class="card"></div><button class="btn" onclick="openAdd('purchase')">+ Ajouter un achat</button></section>
+<section id="pokemon" class="hidden"><h1>🎴 Pokémon</h1><div class="sub">Suivi séparé</div><div id="pokemonPanel" class="card"></div><button class="btn" onclick="openAdd('pokemon')">+ Ajouter une vente Pokémon</button></section>
+
+<section id="settings" class="hidden"><h1>⚙️ Réglages</h1><div class="card">
+<label>Cash disponible<input id="setCash" class="input" type="number" step=".01"></label>
+<label>Vinted disponible<input id="setVinted" class="input" type="number" step=".01"></label>
+<label>Vinted en attente<input id="setPending" class="input" type="number" step=".01"></label>
+<button class="btn" onclick="saveSettings()">Enregistrer</button>
+</div><div class="card"><b>Synchronisation</b><p class="muted">Cette version est prête pour une base cloud. Tant que les identifiants cloud ne sont pas configurés, les données restent dans le navigateur.</p><span id="syncStatus" class="status">Mode local</span></div></section>
+
+<section id="modal" class="hidden">
+<h1 id="modalTitle">Ajouter</h1><div class="card" id="form"></div>
+</section>
+</div>
+<nav>
+<button onclick="show('home')">⌂<br>Accueil</button><button onclick="show('stock')">📦<br>Stock</button><button onclick="show('purchases')">🛒<br>Achats</button><button onclick="show('sales')">💶<br>Ventes</button><button onclick="show('pokemon')">🎴<br>Pokémon</button>
+</nav>
+<script src="app.js"></script>
+</body></html>
